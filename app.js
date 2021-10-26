@@ -3,8 +3,20 @@ const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-const cellsHorizontal = 10;
-const cellsVertical = 15;
+const mazeHor = localStorage.getItem("__MAZE_HOR")
+  ? +localStorage.getItem("__MAZE_HOR") + 1
+  : undefined;
+const mazeVer = localStorage.getItem("__MAZE_VER")
+  ? +localStorage.getItem("__MAZE_VER") + 1
+  : undefined;
+
+const level = localStorage.getItem("__MAZE_LEVEL")
+  ? +localStorage.getItem("__MAZE_LEVEL") + 1
+  : undefined;
+
+const cellsHorizontal = mazeHor ? mazeHor : 4;
+const cellsVertical = mazeVer ? mazeVer : 6;
+const gameLevel = level ? level : 1;
 const unitLengthX = width / cellsHorizontal;
 const unitLengthY = height / cellsVertical;
 
@@ -20,12 +32,22 @@ const render = Render.create({
     width,
     height,
     wireframes: false, //if true shapes will be skeleton otherwise colorfull.
-    sleeping: true,
   },
 });
 
 Render.run(render);
 Runner.run(Runner.create(), engine);
+
+document.querySelector(".next-level").addEventListener("click", () => {
+  window.location.reload(false);
+});
+
+document.querySelector(".reset-game").addEventListener("click", () => {
+  localStorage.removeItem("__MAZE_VER");
+  localStorage.removeItem("__MAZE_HOR");
+  localStorage.removeItem("__MAZE_LEVEL");
+  window.location.reload(false);
+});
 
 // Walls
 // Generic code for generating walls according to width and height
@@ -192,7 +214,7 @@ const ball = Bodies.circle(unitLengthX / 2, unitLengthY / 2, ballRadius, {
 World.add(world, ball);
 
 document.addEventListener("keydown", event => {
-  let velocitySpeed = 0.7;
+  let velocitySpeed = 5;
   const { x, y } = ball.velocity;
 
   if (event.code === "ArrowUp" || event.code === "KeyW") {
@@ -214,6 +236,9 @@ Events.on(engine, "collisionStart", event => {
       labels.includes(collision.bodyB.label)
     ) {
       document.querySelector(".reset").classList.add("show");
+      localStorage.setItem("__MAZE_HOR", cellsHorizontal);
+      localStorage.setItem("__MAZE_VER", cellsVertical);
+      localStorage.setItem("__MAZE_LEVEL", gameLevel);
       world.gravity.y = 1;
       world.bodies.forEach(body => {
         if (body.label === "wall") {
@@ -223,3 +248,5 @@ Events.on(engine, "collisionStart", event => {
     }
   });
 });
+
+document.querySelector("span").innerText = gameLevel;
