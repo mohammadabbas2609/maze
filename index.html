@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crash into Square</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      .reset {
+        display: none;
+      }
+
+      .reset.show {
+        display: block;
+        position: absolute;
+        color: black;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .btn {
+        margin-top: 20px;
+        background: transparent;
+        border: 0;
+        outline: none;
+        border: 3px solid #111;
+        padding: 5px 8px;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        transform: scale(0.95);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reset">
+      <h1>You Won :)</h1>
+      <button class="btn">Play Again</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
