@@ -249,4 +249,6 @@ Events.on(engine, "collisionStart", event => {
   });
 });
 
-document.querySelector("span").innerText = gameLevel;
+document.querySelector(
+  ".display-level"
+).innerHTML = `Level No <span>${gameLevel}</span>`;
